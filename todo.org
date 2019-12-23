@@ -1,0 +1,7 @@
+* TODO [4/6]
+- [ ] use 'pv' command
+- [ ] add packed (deb,rpm)
+- [X] add script version
+- [X] check file existence
+- [X] If the device is mounted, then offer to unmount
+- [X] remove code error if write to /dev/sd(unexist)
