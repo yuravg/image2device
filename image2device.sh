@@ -2,7 +2,7 @@
 
 # Author: Yuriy Gritsenko
 # URL: https://github.com/yuravg/image2device
-# Time-stamp: <2019-09-19 09:56:17>
+# Time-stamp: <2020-04-22 15:42:54>
 # License: MIT License. If not, see <https://www.opensource.org/licenses/MIT>.
 
 #
@@ -67,12 +67,18 @@ fi
 underline_echo (){
     printf "\\e[4m%s\\e[0m\\n" "$1"
 }
+green_echo (){
+    printf "\\e[32m%s\\e[0m\\n" "$1"
+}
+red_echo (){
+    printf "\\e[31m\\e[1m%s\\e[0m\\n" "$1"
+}
 
 echo ""
 underline_echo "Settings:"
+echo "  work directory : $(pwd)"
 echo "  image          : $IMAGE_FILE"
 echo "  device         : $DEVICE"
-echo "  work directory : $(pwd)"
 echo ""
 
 underline_echo "Block device:"
@@ -80,7 +86,7 @@ lsblk -p "$DEVICE"
 echo ""
 
 if mount | grep -c "$DEVICE" &>/dev/null; then
-    printf "\\e[31m\\e[1mError! Unable write to mounted device: %s.\\e[0m\\n" "$DEVICE"
+    red_echo "Error! Unable write to mounted device: $DEVICE"
     echo "You should unmount the device before writing."
     exit 1
 fi
@@ -98,9 +104,9 @@ fi
 
 echo "Writing ..."
 if ! $CMD; then
-    printf "\\e[31m\\e[1mError! Unable to write data.\\e[0m\\n"
+    red_echo "Error! Unable to write data."
 else
-    printf "\\e[32mDone.\\e[0m\\n"
+    green_echo "Done."
 fi
 
 # This is for the sake of Emacs.
