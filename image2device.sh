@@ -2,7 +2,7 @@
 
 # Author: Yuriy Gritsenko
 # URL: https://github.com/yuravg/image2device
-# Time-stamp: <2020-04-24 15:38:29>
+# Time-stamp: <2020-04-24 15:39:42>
 # License: MIT License. If not, see <https://www.opensource.org/licenses/MIT>.
 
 #
@@ -20,12 +20,19 @@ echo "| Copy image file to block device                                      |"
 echo "+----------------------------------------------------------------------+"
 
 SCRIPT_NAME="$(basename $0)"
+SCRIPT_VERSION="0.1b1"
+
+if [ "$1" = '-V' ] || [ "$1" = '--version' ]; then
+    echo "$SCRIPT_NAME version $SCRIPT_VERSION"
+    exit 0
+fi
 
 if [ "$#" -ne 2 ] || [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '-help' ]; then
     echo ""
     echo " Usage:"
-    echo "   <script_name> <path-to-image> <path-to-device>"
-    echo " usage example:"
+    echo "   $SCRIPT_NAME [<path-to-image> <path-to-device>]"
+    echo "                 [--help | -h] [--version | -V]"
+    echo " Usage example:"
     echo "   $SCRIPT_NAME ./sdimage.img /dev/sdc"
     echo ""
     exit 0
