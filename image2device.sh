@@ -2,7 +2,7 @@
 
 # Author: Yuriy Gritsenko
 # URL: https://github.com/yuravg/image2device
-# Time-stamp: <2020-04-22 15:42:54>
+# Time-stamp: <2020-04-24 15:38:29>
 # License: MIT License. If not, see <https://www.opensource.org/licenses/MIT>.
 
 #
@@ -21,7 +21,7 @@ echo "+----------------------------------------------------------------------+"
 
 SCRIPT_NAME="$(basename $0)"
 
-if [ "$#" -ne 2 ] || [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == '-help' ]; then
+if [ "$#" -ne 2 ] || [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '-help' ]; then
     echo ""
     echo " Usage:"
     echo "   <script_name> <path-to-image> <path-to-device>"
