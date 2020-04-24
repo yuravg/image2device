@@ -2,7 +2,7 @@
 
 # Author: Yuriy Gritsenko
 # URL: https://github.com/yuravg/image2device
-# Time-stamp: <2020-04-24 15:39:42>
+# Time-stamp: <2020-04-24 16:23:03>
 # License: MIT License. If not, see <https://www.opensource.org/licenses/MIT>.
 
 #
@@ -20,7 +20,7 @@ echo "| Copy image file to block device                                      |"
 echo "+----------------------------------------------------------------------+"
 
 SCRIPT_NAME="$(basename $0)"
-SCRIPT_VERSION="0.1b1"
+SCRIPT_VERSION="0.1b2"
 
 if [ "$1" = '-V' ] || [ "$1" = '--version' ]; then
     echo "$SCRIPT_NAME version $SCRIPT_VERSION"
@@ -57,20 +57,6 @@ fun_yesno () {
     done
 }
 
-if [ -z "$1" ]; then
-    echo "ERROR! Can't find image file: '$1'!"
-    exit -1
-else
-    IMAGE_FILE="$1"
-fi
-
-if [ -z "$2" ]; then
-    echo "ERROR! You must set path to device and image to start copying!"
-    exit -2
-else
-    DEVICE="$2"
-fi
-
 underline_echo (){
     printf "\\e[4m%s\\e[0m\\n" "$1"
 }
@@ -80,6 +66,20 @@ green_echo (){
 red_echo (){
     printf "\\e[31m\\e[1m%s\\e[0m\\n" "$1"
 }
+
+if [ ! -s "$1" ]; then
+    red_echo "ERROR! Can't find image file(or zero size): '$1'!"
+    exit 2
+else
+    IMAGE_FILE="$1"
+fi
+
+if [ ! -b "$2" ]; then
+    red_echo "ERROR! Can't find block device: '$2'"
+    exit 3
+else
+    DEVICE="$2"
+fi
 
 echo ""
 underline_echo "Settings:"
