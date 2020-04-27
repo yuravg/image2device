@@ -2,7 +2,7 @@
 
 # Author: Yuriy Gritsenko
 # URL: https://github.com/yuravg/image2device
-# Time-stamp: <2020-04-27 10:58:24>
+# Time-stamp: <2020-04-27 11:01:48>
 # License: MIT License. If not, see <https://www.opensource.org/licenses/MIT>.
 
 #
@@ -20,7 +20,7 @@ echo "| Copy image file to block device                                      |"
 echo "+----------------------------------------------------------------------+"
 
 SCRIPT_NAME=$(basename "$0")
-SCRIPT_VERSION="0.1b4"
+SCRIPT_VERSION="0.1"
 
 if [ "$1" = '-V' ] || [ "$1" = '--version' ]; then
     echo "$SCRIPT_NAME version $SCRIPT_VERSION"
