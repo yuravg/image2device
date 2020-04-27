@@ -19,8 +19,8 @@ echo "+----------------------------------------------------------------------+"
 echo "| Copy image file to block device                                      |"
 echo "+----------------------------------------------------------------------+"
 
-SCRIPT_NAME="$(basename $0)"
-SCRIPT_VERSION="0.1b2"
+SCRIPT_NAME=$(basename "$0")
+SCRIPT_VERSION="0.1b3"
 
 if [ "$1" = '-V' ] || [ "$1" = '--version' ]; then
     echo "$SCRIPT_NAME version $SCRIPT_VERSION"
