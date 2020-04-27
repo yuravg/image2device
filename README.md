@@ -31,6 +31,10 @@ Example:
     $ mv -v image2device.sh ~/bin/
     $ sudo chmod +x ~/bin/image2device.sh
 
+or
+
+    $ sudo make install
+
 ## Write image to device
 
 If the script is invoked without command line argument,
