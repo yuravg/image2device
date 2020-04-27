@@ -2,7 +2,7 @@
 
 # Author: Yuriy Gritsenko
 # URL: https://github.com/yuravg/image2device
-# Time-stamp: <2020-04-24 16:23:03>
+# Time-stamp: <2020-04-27 10:58:24>
 # License: MIT License. If not, see <https://www.opensource.org/licenses/MIT>.
 
 #
@@ -20,7 +20,7 @@ echo "| Copy image file to block device                                      |"
 echo "+----------------------------------------------------------------------+"
 
 SCRIPT_NAME=$(basename "$0")
-SCRIPT_VERSION="0.1b3"
+SCRIPT_VERSION="0.1b4"
 
 if [ "$1" = '-V' ] || [ "$1" = '--version' ]; then
     echo "$SCRIPT_NAME version $SCRIPT_VERSION"
@@ -92,10 +92,35 @@ underline_echo "Block device:"
 lsblk -p "$DEVICE"
 echo ""
 
+umount_part () {
+    cnt_dev=1
+    for p in $(mount|grep sdc|cut -d' ' -f3); do
+        part[$cnt_dev]=$p
+        cnt_dev=$((cnt_dev + 1))
+    done
+
+    for (( i=1; i<${#part[@]}+1; i++ )); do
+        path2part=${part[$i]}
+        # unset or empty string
+        if [ -z "$1" ]; then
+            echo "$path2part"
+        else
+            sudo umount "$path2part"
+        fi
+    done
+}
+
 if mount | grep -c "$DEVICE" &>/dev/null; then
     red_echo "Error! Unable write to mounted device: $DEVICE"
-    echo "You should unmount the device before writing."
-    exit 1
+    echo "You should unmount the device before writing!"
+    echo "Mounted parts of '$DEVICE':"
+    umount_part
+    if fun_yesno "Would you like unmout them"; then
+        echo 'Unmout ...'
+        umount_part "umount"
+    else
+        exit 0
+    fi
 fi
 
 CMD="sudo dd bs=32M conv=sync status=progress if=$IMAGE_FILE of=$DEVICE"
