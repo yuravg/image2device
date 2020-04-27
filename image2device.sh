@@ -124,7 +124,15 @@ if mount | grep -c "$DEVICE" &>/dev/null; then
     fi
 fi
 
-CMD="sudo dd bs=32M conv=sync status=progress if=$IMAGE_FILE of=$DEVICE"
+# TODO: add argument to enable/disable(default) 'pv'
+if hash pv 2>/dev/null; then
+    # TODO: how to select the optimum block size
+    CMD="sudo dd if=$IMAGE_FILE | pv -s $IMAGE_FILE_SIZE | sudo dd of=$DEVICE conv=sync"
+    PV_ENABLE=1
+else
+    CMD="sudo dd bs=32M conv=sync status=progress if=$IMAGE_FILE of=$DEVICE"
+fi
+
 underline_echo "Command to execute:"
 echo "$CMD"
 echo ""
@@ -136,6 +144,7 @@ if ! fun_yesno "Would you like begin writing" ; then
 fi
 
 echo "Writing ..."
+# FIXME: how insert 'cmd'?
 if ! $CMD; then
     red_echo "Error! Unable to write data."
 else
