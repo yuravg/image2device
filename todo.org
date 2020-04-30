@@ -1,6 +1,9 @@
-* TODO [4/6]
+* TODO [4/8]
 - [ ] use 'pv' command
-- [ ] add packed (deb,rpm)
+- [ ] add packages(deb,rpm)
+- [ ] add warning if input file archive(*xz, etc.)
+- [ ] add suppport unpack commmad
+  example: xzcat NAME.img.xz | dd of=/dev/path
 - [X] add script version
 - [X] check file existence
 - [X] If the device is mounted, then offer to unmount
