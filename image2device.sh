@@ -2,7 +2,7 @@
 
 # Author: Yuriy Gritsenko
 # URL: https://github.com/yuravg/image2device
-# Time-stamp: <2020-04-27 11:01:48>
+# Time-stamp: <2020-04-30 20:03:47>
 # License: MIT License. If not, see <https://www.opensource.org/licenses/MIT>.
 
 #
@@ -20,7 +20,7 @@ echo "| Copy image file to block device                                      |"
 echo "+----------------------------------------------------------------------+"
 
 SCRIPT_NAME=$(basename "$0")
-SCRIPT_VERSION="0.1"
+SCRIPT_VERSION="0.2"
 
 if [ "$1" = '-V' ] || [ "$1" = '--version' ]; then
     echo "$SCRIPT_NAME version $SCRIPT_VERSION"
@@ -72,6 +72,7 @@ if [ ! -s "$1" ]; then
     exit 2
 else
     IMAGE_FILE="$1"
+    IMAGE_FILE_SIZE=$(du -h "$IMAGE_FILE" | awk '{print $1}')
 fi
 
 if [ ! -b "$2" ]; then
@@ -84,7 +85,7 @@ fi
 echo ""
 underline_echo "Settings:"
 echo "  work directory : $(pwd)"
-echo "  image          : $IMAGE_FILE"
+echo "  image          : $IMAGE_FILE (size: $IMAGE_FILE_SIZE)"
 echo "  device         : $DEVICE"
 echo ""
 
