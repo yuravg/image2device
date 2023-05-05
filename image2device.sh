@@ -2,7 +2,7 @@
 
 # Author: Yuriy Gritsenko
 # URL: https://github.com/yuravg/image2device
-# Time-stamp: <2020-04-30 20:03:47>
+# Time-stamp: <2023-05-05 12:57:55>
 # License: MIT License. If not, see <https://www.opensource.org/licenses/MIT>.
 
 #
@@ -15,12 +15,13 @@
 # Example
 #  image2device.sh ./sdimage.img /dev/sdc
 
+SCRIPT_VERSION="0.2.1"
+
 echo "+----------------------------------------------------------------------+"
 echo "| Copy image file to block device                                      |"
 echo "+----------------------------------------------------------------------+"
 
-SCRIPT_NAME=$(basename "$0")
-SCRIPT_VERSION="0.2"
+SCRIPT_NAME=$(basename "${BASH_SOURCE##*/}")
 
 if [ "$1" = '-V' ] || [ "$1" = '--version' ]; then
     echo "$SCRIPT_NAME version $SCRIPT_VERSION"
@@ -28,13 +29,21 @@ if [ "$1" = '-V' ] || [ "$1" = '--version' ]; then
 fi
 
 if [ "$#" -ne 2 ] || [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '-help' ]; then
-    echo ""
-    echo " Usage:"
-    echo "   $SCRIPT_NAME [<path-to-image> <path-to-device>]"
-    echo "                 [--help | -h] [--version | -V]"
-    echo " Usage example:"
-    echo "   $SCRIPT_NAME ./sdimage.img /dev/sdc"
-    echo ""
+    echo "Usage:"
+    echo "  $SCRIPT_NAME [image] [device]"
+    echo "               [--help | -h] [--version | -V]"
+    echo "ARGS:"
+    echo "    <image>"
+    echo "            Path to image file."
+    echo "    <device>"
+    echo "            Path to block device."
+    echo "OPTIONS:"
+    echo "    --version | -V"
+    echo "            Prints version information."
+    echo "    --help | -h"
+    echo "            Prints help information."
+    echo "Usage example:"
+    echo "  $SCRIPT_NAME ./sdimage.img /dev/sdc"
     exit 0
 fi
 
