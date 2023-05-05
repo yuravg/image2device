@@ -1,12 +1,16 @@
 # Introduction
 
 **image2device.sh** is a script to copy a image-file to a block device(SD card, Flash drive, etc.),
+it is just a wrapper for the *dd* and *bmaptool* tools.
 
-it is just a wrapper for "dd" tool.
+This script simplify usage *dd* and it just a bit more useful then alias:
 
-Sometimes I prefer to use this script than alias like: `alias dd_sync="dd bs=32M conv=sync status=progress"`,
+    alias dd_sync="dd bs=32M conv=sync status=progress"
 
-and than [bmap-tools](https://github.com/intel/bmap-tools).
+For [bmap-tools](https://github.com/intel/bmap-tools) it replaces a couple of commands:
+
+    bmaptool create -o <bmap-name.bmap> <image-name.img>
+    sudo bmaptool copy --bmap <bmap-name.bmap> <image-name.img> </path/to/device>
 
 # Usage
 
@@ -37,16 +41,22 @@ or
 
 ## Write image to device
 
-If the script is invoked without command line argument,
-with command line argument --help (or -h), it shows help message and exits.
+If the script is invoked without command line arguments or
+with command line argument --help (or -h) then it displays help message and exits.
 
 Template:
 
     $ <script_name> <path-to-image> <path-to-device>
 
-Example:
+### Examples
+
+For use *dd*
 
     $ image2device.sh ./sdimage.img /dev/sdc
+
+For use *bmaptool*
+
+    $ image2device.sh -b ./sdimage.img /dev/sdc
 
 ## Screenshot
 
