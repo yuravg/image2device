@@ -14,17 +14,22 @@ For [bmap-tools](https://github.com/intel/bmap-tools) it replaces a couple of co
 
 # Usage
 
-## Download
-
-To get script image2device.sh:
-
-Download the [script](https://raw.githubusercontent.com/yuravg/image2device/master/image2device.sh)
-
-or
-
-Clone Git repository `git clone https://github.com/yuravg/image2device.git`
-
 ## Install
+
+### Install from the package
+
+For Fedora OS: download latest [package](https://github.com/yuravg/image2device/releases) and install:
+
+    $ sudo rpm -i image2device-<version.release.arch>.rpm
+
+For Debian OS: download latest [package](https://github.com/yuravg/image2device/releases) and install:
+
+    $ sudo deb -i <name>.deb
+
+
+### Install by copy the script
+
+- download the [script](https://raw.githubusercontent.com/yuravg/image2device/master/image2device.sh)
 
 - copy the script file to some PATH directory (~/bin, /user/local/bin, etc.)
 
@@ -36,6 +41,8 @@ Example:
     $ sudo chmod +x ~/bin/image2device.sh
 
 or
+
+Clone Git repository `git clone https://github.com/yuravg/image2device.git` and run in the image2device directory:
 
     $ sudo make install
 
