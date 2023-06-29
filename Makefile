@@ -8,7 +8,7 @@ SCRIPT=image2device.sh
 SCRIPT_OUT=image2device
 BINPREFIX=/usr/local/bin
 
-.PHONY: help install uninstall rpm_lint rpm_clear rpm_build
+.PHONY: help install uninstall rpm_lint rpm_clear rpm_build deb_clear deb_lint deb_build
 
 .DEFAULT_GOAL := help
 
@@ -21,8 +21,11 @@ help:
 	@echo "  install   -  Install the script (to "$(BINPREFIX)")"
 	@echo "  uninstall -  Remove the script (from "$(BINPREFIX)")"
 	@echo ""
-	@echo " rpm_lint   - Run rpmlint command"
-	@echo " rpm_build  - Build the rpm package"
+	@echo "  rpm_lint   - Run rpmlint command"
+	@echo "  rpm_build  - Build the rpm package"
+	@echo ""
+	@echo "  deb_lint   - Run rpmlint command"
+	@echo "  deb_build  - Build the rpm package"
 	@echo ""
 
 install:
@@ -52,3 +55,16 @@ rpm_build:
 	@mv -v "$(PKG_TAR)" rpmbuild/SOURCES
 	rpmbuild --define "_topdir `pwd`/rpmbuild" -v -ba ./rpmbuild/SPECS/image2device.spec
 	@$(MAKE) rpm_clear
+
+deb_clear:
+	@echo under design!
+
+deb_lint:
+	@echo under design!
+	lintian image2device-.deb
+
+deb_build:
+	@$(MAKE) deb_clear
+	mkdir -p debbuild/{bin,etc,SCRIPT_NAME/DEBIAN} || true
+	@cp -v "$(SCRIPT)" debbuild/bin/"$(SCRIPT_OUT)"
+	cd debbuild && dpkg-deb --root-owner-group --build "$(SCRIPT_NAME)"
