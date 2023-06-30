@@ -2,7 +2,6 @@
 
 # Author: Yuriy Gritsenko
 # URL: https://github.com/yuravg/image2device
-# Time-stamp: <2023-06-30 10:23:19>
 # License: MIT License. If not, see <https://www.opensource.org/licenses/MIT>.
 
 #
@@ -16,7 +15,7 @@
 #  image2device.sh ./sdimage.img /dev/sdc
 #  image2device.sh -b ./sdimage.img /dev/sdc
 
-SCRIPT_VERSION="1.1"
+SCRIPT_VERSION="1.2"
 
 echo "+----------------------------------------------------------------------+"
 echo "| Copy image file to block device                                      |"
@@ -206,10 +205,3 @@ if [ "$ARG_BMAP_EN" -eq 1 ]; then
 else
     dd_write
 fi
-
-# This is for the sake of Emacs.
-# Local Variables:
-# time-stamp-end: "$"
-# time-stamp-format: "<%:y-%02m-%02d %02H:%02M:%02S>"
-# time-stamp-start: "Time-stamp: "
-# End:
