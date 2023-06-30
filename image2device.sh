@@ -2,7 +2,7 @@
 
 # Author: Yuriy Gritsenko
 # URL: https://github.com/yuravg/image2device
-# Time-stamp: <2023-06-25 22:11:51>
+# Time-stamp: <2023-06-30 10:23:19>
 # License: MIT License. If not, see <https://www.opensource.org/licenses/MIT>.
 
 #
@@ -16,7 +16,7 @@
 #  image2device.sh ./sdimage.img /dev/sdc
 #  image2device.sh -b ./sdimage.img /dev/sdc
 
-SCRIPT_VERSION="1.0.1"
+SCRIPT_VERSION="1.1"
 
 echo "+----------------------------------------------------------------------+"
 echo "| Copy image file to block device                                      |"
