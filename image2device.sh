@@ -2,7 +2,7 @@
 
 # Author: Yuriy Gritsenko
 # URL: https://github.com/yuravg/image2device
-# Time-stamp: <2023-05-05 17:24:51>
+# Time-stamp: <2023-06-25 22:11:51>
 # License: MIT License. If not, see <https://www.opensource.org/licenses/MIT>.
 
 #
@@ -16,7 +16,7 @@
 #  image2device.sh ./sdimage.img /dev/sdc
 #  image2device.sh -b ./sdimage.img /dev/sdc
 
-SCRIPT_VERSION="1.0.0"
+SCRIPT_VERSION="1.0.1"
 
 echo "+----------------------------------------------------------------------+"
 echo "| Copy image file to block device                                      |"
@@ -29,8 +29,7 @@ if [ "$1" = '-V' ] || [ "$1" = '--version' ]; then
     exit 0
 fi
 
-if [ "$#" -lt 2 ] || [ "$#" -gt 3 ] \
-       || [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '-help' ]; then
+usage () {
     echo "Usage:"
     echo "  $SCRIPT_NAME [-b] [image] [device]"
     echo "               [--help | -h] [--version | -V]"
@@ -49,8 +48,7 @@ if [ "$#" -lt 2 ] || [ "$#" -gt 3 ] \
     echo "Usage example:"
     echo "  $SCRIPT_NAME ./sdimage.img /dev/sdc"
     echo "  $SCRIPT_NAME -b ./sdimage.img /dev/sdc"
-    exit 0
-fi
+}
 
 fun_yesno () {
     while :
@@ -89,6 +87,16 @@ else
     ARG_BMAP_EN=0
     ARG_IMG="$1"
     ARG_DEV="$2"
+fi
+
+if [ "$#" -lt 2 ] || [ "$#" -gt 3 ] \
+       || { [ "$ARG_BMAP_EN" -eq 1 ] && [ "$#" -ne 3 ]; }; then
+    red_echo "ERROR! Parameters are incorrect!"
+    usage
+    exit 0
+elif [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '-help' ]; then
+    usage
+    exit 0
 fi
 
 if [ ! -s "$ARG_IMG" ]; then
