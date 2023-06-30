@@ -15,7 +15,7 @@
 #  image2device.sh ./sdimage.img /dev/sdc
 #  image2device.sh -b ./sdimage.img /dev/sdc
 
-SCRIPT_VERSION="1.2"
+SCRIPT_VERSION="1.3"
 
 echo "+----------------------------------------------------------------------+"
 echo "| Copy image file to block device                                      |"
@@ -201,7 +201,15 @@ btool_write() {
 }
 
 if [ "$ARG_BMAP_EN" -eq 1 ]; then
+    if ! hash bmaptool 2>/dev/null; then
+        red_echo "ERROR! 'bmaptool' was not found in PATH"
+        exit 4
+    fi
     btool_write
 else
+    if ! hash dd 2>/dev/null; then
+        red_echo "ERROR! 'dd' was not found in PATH"
+        exit 5
+    fi
     dd_write
 fi
