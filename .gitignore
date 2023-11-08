@@ -1,4 +1,4 @@
-debbuild/bin/image2device
+debbuild/image2device/bin/image2device
 rpmbuild/BUILD/*
 rpmbuild/RPMS/*
 rpmbuild/SRPMS/*
