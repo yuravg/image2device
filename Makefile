@@ -1,11 +1,10 @@
 
 MAKE = make --no-print-directory
 
-SCRIPT_NAME=image2device
+SCRIPT=image2device
+SCRIPT_FNAME=image2device.sh
 SCRIPT_VERSION=1.3
 
-SCRIPT=image2device.sh
-SCRIPT_OUT=image2device
 BINPREFIX=/usr/local/bin
 
 .PHONY: help install uninstall rpm_lint rpm_clear rpm_build deb_clear deb_lint deb_build
@@ -29,19 +28,19 @@ help:
 	@echo ""
 
 install:
-	@echo "Installing '$(SCRIPT)' ..."
-	@chmod 775 "$(SCRIPT)"
-	@cp -v "$(SCRIPT)" "$(BINPREFIX)/$(SCRIPT_OUT)"
-	@chmod 644 "$(SCRIPT)"
+	@echo "Installing '$(SCRIPT_FNAME)' ..."
+	@chmod 775 "$(SCRIPT_FNAME)"
+	@cp -v "$(SCRIPT_FNAME)" "$(BINPREFIX)/$(SCRIPT)"
+	@chmod 644 "$(SCRIPT_FNAME)"
 
 uninstall:
-	@echo "... uninstalling '$(SCRIPT_OUT)'"
-	@rm -fv "$(BINPREFIX)/$(SCRIPT_OUT)"
+	@echo "... uninstalling '$(SCRIPT)'"
+	@rm -fv "$(BINPREFIX)/$(SCRIPT)"
 
 rpm_lint:
 	rpmlint ./rpmbuild/SPECS/image2device.spec
 
-RPM_DIR="$(SCRIPT_NAME)-$(SCRIPT_VERSION)"
+RPM_DIR="$(SCRIPT)-$(SCRIPT_VERSION)"
 rpm_clear:
 	rm -rf "$(RPM_DIR)"
 
@@ -49,22 +48,25 @@ PKG_TAR="$(RPM_DIR).tar.gz"
 rpm_build:
 	@$(MAKE) rpm_clear
 	mkdir "$(RPM_DIR)"
-	@cp -v "$(SCRIPT)" "$(RPM_DIR)"
+	@cp -v "$(SCRIPT_FNAME)" "$(RPM_DIR)"
 	@tar -cvzf "$(PKG_TAR)" "$(RPM_DIR)"
-	mkdir -p rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS} || true
+	mkdir -p rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
 	@mv -v "$(PKG_TAR)" rpmbuild/SOURCES
 	rpmbuild --define "_topdir `pwd`/rpmbuild" -v -ba ./rpmbuild/SPECS/image2device.spec
 	@$(MAKE) rpm_clear
 
+PATH_DEB_PKG=debbuild/"$(SCRIPT)"
+DEB_PKG=$(SCRIPT).deb
+DEB_PKG_OUT=$(SCRIPT)_$(SCRIPT_VERSION).deb
 deb_clear:
-	@echo under design!
+	rm -f debbuild/$(DEB_PKG_OUT)
 
 deb_lint:
-	@echo under design!
-	lintian image2device-.deb
+	lintian debbuild/$(DEB_PKG_OUT)
 
 deb_build:
 	@$(MAKE) deb_clear
-	mkdir -p debbuild/{bin,etc,SCRIPT_NAME/DEBIAN} || true
-	@cp -v "$(SCRIPT)" debbuild/bin/"$(SCRIPT_OUT)"
-	cd debbuild && dpkg-deb --root-owner-group --build "$(SCRIPT_NAME)"
+	mkdir -p $(PATH_DEB_PKG)/bin
+	@cp -v $(SCRIPT_FNAME) $(PATH_DEB_PKG)/bin/$(SCRIPT)
+	cd debbuild && dpkg-deb --root-owner-group --build $(SCRIPT)
+	cd debbuild && mv -v $(DEB_PKG) $(DEB_PKG_OUT)
